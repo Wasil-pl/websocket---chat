@@ -14,9 +14,7 @@ const messages = [];
 const login = function (e) {
   e.preventDefault();
 
-  const userNameInput = document.getElementById('username').value;
-
-  if (userNameInput === '') {
+  if (userNameInput.value === '') {
     alert('Please enter your name.');
     return;
   }
@@ -28,3 +26,41 @@ const login = function (e) {
 };
 
 loginForm.addEventListener('submit', login);
+
+// Funkcja wysyłająca wiadomość
+const sendMessage = function (e) {
+  e.preventDefault();
+
+  if (messageContentInput.value === '') {
+    alert('Please enter a message.');
+    return;
+  }
+
+  addMessage(userName, messageContentInput.value);
+  messageContentInput.value = '';
+};
+
+addMessageForm.addEventListener('submit', sendMessage);
+
+// Funkcja dodająca wiadomość
+const addMessage = function (author, content) {
+  const message = document.createElement('li');
+  message.classList.add('message');
+  message.classList.add('message--received');
+
+  if (author === userName) {
+    message.classList.add('message--self');
+  }
+
+  const header = document.createElement('h3');
+  header.classList.add('message__author');
+  header.innerText = author === userName ? 'You' : author;
+  message.appendChild(header);
+
+  const messageContent = document.createElement('div');
+  messageContent.classList.add('message__content');
+  messageContent.innerText = content;
+  message.appendChild(messageContent);
+
+  messagesList.appendChild(message);
+};
