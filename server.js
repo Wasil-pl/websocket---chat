@@ -4,7 +4,7 @@ const app = express();
 const socket = require('socket.io');
 
 const messages = [];
-let users = [];
+const users = [];
 
 app.use(express.static(path.join(__dirname, '/client')));
 
