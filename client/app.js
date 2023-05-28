@@ -25,8 +25,6 @@ const login = function (e) {
   messagesSection.classList.add('show');
 };
 
-loginForm.addEventListener('submit', login);
-
 // Funkcja wysyłająca wiadomość
 const sendMessage = function (e) {
   e.preventDefault();
@@ -39,8 +37,6 @@ const sendMessage = function (e) {
   addMessage(userName, messageContentInput.value);
   messageContentInput.value = '';
 };
-
-addMessageForm.addEventListener('submit', sendMessage);
 
 // Funkcja dodająca wiadomość
 const addMessage = function (author, content) {
@@ -64,3 +60,10 @@ const addMessage = function (author, content) {
 
   messagesList.appendChild(message);
 };
+
+loginForm.addEventListener('submit', login);
+addMessageForm.addEventListener('submit', sendMessage);
+
+// Wyłączenie podpowiadania przeglądarki dla pól tekstowych
+userNameInput.setAttribute('autocomplete', 'off');
+messageContentInput.setAttribute('autocomplete', 'off');
