@@ -19,11 +19,11 @@ const io = socket(server);
 io.on('connection', (socket) => {
   console.log('New client! Its id – ' + socket.id);
 
-  socket.on('login', (name) => {
-    const user = { name, id: socket.id };
+  socket.on('login', (author) => {
+    const user = { author, id: socket.id };
     users.push(user);
+    socket.broadcast.emit('message', { author: 'Chat Bot', content: user.author + ` has joined the conversation` });
     console.log('New user logged in:', user);
-    console.log('users:', users);
   });
 
   socket.on('message', (message) => {
@@ -37,6 +37,10 @@ io.on('connection', (socket) => {
     if (index !== -1) {
       const user = users[index];
       users.splice(index, 1);
+      socket.broadcast.emit('message', {
+        author: 'Chat Bot',
+        content: user.author + ` has left the conversation :(`,
+      });
       console.log('User disconnected:', user);
     }
   });

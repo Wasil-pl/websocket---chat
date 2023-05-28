@@ -61,6 +61,10 @@ const addMessage = function (author, content) {
     message.classList.add('message--self');
   }
 
+  if (author === 'Chat Bot') {
+    message.classList.add('message--chat-bot');
+  }
+
   const header = document.createElement('h3');
   header.classList.add('message__author');
   header.innerText = author === userName ? 'You' : author;
