@@ -6,6 +6,12 @@ const addMessageForm = document.getElementById('add-messages-form');
 const userNameInput = document.getElementById('username');
 const messageContentInput = document.getElementById('message-content');
 
+// inicjacja nowegi klienta socketowego
+const socket = io();
+
+// Dodanie nasłuchiwacza dla socket
+socket.on('message', ({ author, content }) => addMessage(author, content));
+
 // Zmienne globalne
 let userName = '';
 const messages = [];
@@ -14,27 +20,34 @@ const messages = [];
 const login = function (e) {
   e.preventDefault();
 
-  if (userNameInput.value === '') {
+  let userNameContent = userNameInput.value;
+
+  if (userNameContent === '') {
     alert('Please enter your name.');
     return;
   }
 
-  userName = userNameInput;
+  userName = userNameContent;
+  console.log('userName:', userName);
 
   loginForm.classList.remove('show');
   messagesSection.classList.add('show');
+  socket.emit('login', userName);
 };
 
 // Funkcja wysyłająca wiadomość
 const sendMessage = function (e) {
   e.preventDefault();
 
-  if (messageContentInput.value === '') {
+  let messageContent = messageContentInput.value;
+
+  if (messageContent === '') {
     alert('Please enter a message.');
     return;
   }
 
-  addMessage(userName, messageContentInput.value);
+  addMessage(userName, messageContent);
+  socket.emit('message', { author: userName, content: messageContent });
   messageContentInput.value = '';
 };
 
